@@ -1,8 +1,28 @@
 import streamlit as st
+import pymongo
+from pymongo import MongoClient
+
+
+client = MongoClient('mongodb+srv://21311a6611:Waffle@cluster0.ub5pbd6.mongodb.net/?retryWrites=true&w=majority',serverSelectionTimeoutMS=60000)
+db = client["Food"]
+collection = db["Recipes"]
+
 
 st.title("to make a poll by admin")
 # Poll question
 question = st.text_input("Enter the poll question:" , key="beta")
+
+ingredients_str = st.text_input("Enter the ingredients available (seperated by commas):", key="gamma")
+ingredients = ingredients_str.split(',')
+
+
+results = collection.find()
+iterator = iter(results)
+for document in iterator:
+    if set(ingredients) <= set(document['ingredients']) :
+        st.write(document['dish_name'])
+
+client.close()
 
 # Poll options
 options = st.text_input("Enter the poll options (separated by commas):" , key="omega")
