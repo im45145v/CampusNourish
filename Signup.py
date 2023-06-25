@@ -4,7 +4,7 @@ client = pymongo.MongoClient("mongodb+srv://<username>:<Password>@cluster0.ub5pb
 db = client["Food"]
 collections = db['Credentials']
 def create_user(usr,pas):
-    db["Credentials"].insert_one({"username":usr,"pasword":pas,"role":"student"})
+    db["Credentials"].insert_one({"username":usr,"pasword":pas,"role":"student","full_name":fulname,"vote":""})
 st.markdown("""
 <style>
 .css-nqowgj.e1ewe7hr3{
@@ -28,6 +28,6 @@ with st.form("signup",clear_on_submit=True):
         elif pas!=cpas:
             st.warning("Don't try to cheat give the password and confirm password same")
         else:
-            create_user(usr,pas)
+            create_user(usr,pas,fulname)
             st.success("User Created")
 
