@@ -25,7 +25,7 @@ visibility:hidden;
 """, unsafe_allow_html=True)
 
 
-st.image("campus.png")
+st.image("Campus.png")
 st.image("uni.png")
 
 with open("items.txt", "r") as file:
