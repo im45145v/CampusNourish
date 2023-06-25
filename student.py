@@ -1,4 +1,33 @@
 import streamlit as st
+
+st.markdown("""
+<style>
+
+[data-testid="stAppViewContainer"]  {
+background-color: #FAD025;
+background-image: url("https://i.ibb.co/z7g7FVk/Untitled-design-10.png");
+background-repeat: no-repeat;
+background-size: 100% auto;
+}
+
+.css-18ni7ap.e13qjvis2{
+     visibility:hidden;
+}
+.css-nqowgj.e1ewe7hr3{
+visibility:hidden;
+}
+
+
+
+
+
+</style>
+""", unsafe_allow_html=True)
+
+
+st.image("campus.png")
+st.image("uni.png")
+
 with open("items.txt", "r") as file:
     user_input = file.read()
 with open("question.txt", "r") as file:
@@ -40,12 +69,12 @@ if user_input:
             st.warning("Vote already submitted.")
 
 
-#st.title("to see all notices made by admin ")
+
 def display_notice_board():
-    st.title('Notice Board')
+
 
     # Display existing notices
-    #st.title('All Notices')
+    st.title('Notices')
     with open('notices.txt', 'r') as f:
         notices = f.readlines()
         if notices:
