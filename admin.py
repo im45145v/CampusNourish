@@ -30,7 +30,7 @@ client = MongoClient('mongodb+srv://21311a6611:Waffle@cluster0.ub5pbd6.mongodb.n
 db = client["Food"]
 collection = db["Recipes"]
 
-st.image("campus.png")
+st.image("Campus.png")
 st.image("uni.png")
 
 
