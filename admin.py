@@ -1,8 +1,15 @@
 import streamlit as st
+from Database import *
 
 st.title("to make a poll by admin")
 # Poll question
 question = st.text_input("Enter the poll question:" , key="beta")
+
+ingredients = st.text_input("Enter the ingredients available (seperated by commas):", key="gamma")
+if ingredients:
+    with open("ingredients.txt",'w') as file:
+        file.write(ingredients)
+        check_for_ingredients()
 
 # Poll options
 options = st.text_input("Enter the poll options (separated by commas):" , key="omega")
