@@ -5,7 +5,7 @@
 
 <table style="border: none;">
 <tr>
-  <td>This initiative aims to create an inclusive and supportive environment for students and administrative management and provides student preferences and budget considerations , promoting healthy eating habits to students</td>
+  <td>This initiative aims to create an inclusive and supportive environment for students and administrative management and provides insights on student preferences and budget considerations , promoting healthy eating habits to students</td>
 <td><img src="https://i.ibb.co/Zxjvbqc/Yummy-Smile-Delicious-Tasty-Eating-Emoji-Stock-Vector-Royalty-Free-1134500144-Shutterstock.jpg"/></td>
 </tr>
 </table>
