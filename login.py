@@ -3,6 +3,37 @@ import os
 import streamlit as st
 
 import pymongo
+
+st.markdown("""
+<style>
+
+[data-testid="stAppViewContainer"]  {
+background-color: #FAD025;
+background-image: url("https://i.ibb.co/z7g7FVk/Untitled-design-10.png");
+background-repeat: no-repeat;
+background-size: 100% auto;
+}
+
+.css-18ni7ap.e13qjvis2{
+     visibility:hidden;
+}
+.css-nqowgj.e1ewe7hr3{
+visibility:hidden;
+}
+
+
+
+
+
+</style>
+""", unsafe_allow_html=True)
+
+
+st.image("campus.png")
+st.image("uni.png")
+
+
+
 client = pymongo.MongoClient("mongodb+srv://<username>:<password>@cluster0.ub5pbd6.mongodb.net/food?retryWrites=true&w=majority")
 db = client["Food"]
 collections = db['Credentials']
@@ -24,7 +55,7 @@ visibility:hidden;
 }
 </style>
 """,unsafe_allow_html=True)
-st.markdown("<h1 style='text-align:center'>Food selecty</h1>",unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center'>Log-In</h1>",unsafe_allow_html=True)
 with st.form("Login",clear_on_submit=True):
     usr=st.text_input("Username")
     pas=st.text_input("Password",type="password")
@@ -40,4 +71,4 @@ with st.form("Login",clear_on_submit=True):
         else:
             check_user(usr,pas,log)
 
-st.markdown("<p style='text-align:center'>New user <a href='http://localhost:8502/'>signup</a></p>",unsafe_allow_html=True)
+st.markdown("<p style='text-align:center'>New user <a href='http://localhost:8504'>signup</a></p>",unsafe_allow_html=True)
