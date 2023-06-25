@@ -1,10 +1,12 @@
 import streamlit as st
 import pymongo
-client = pymongo.MongoClient("mongodb+srv://<username>:<Password>@cluster0.ub5pbd6.mongodb.net/food?retryWrites=true&w=majority")
+import os
+
+client = pymongo.MongoClient("mongodb+srv://<username>:<password>@cluster0.ub5pbd6.mongodb.net/food?retryWrites=true&w=majority")
 db = client["Food"]
 collections = db['Credentials']
-def create_user(usr,pas):
-    db["Credentials"].insert_one({"username":usr,"pasword":pas,"role":"student","full_name":fulname,"vote":""})
+def create_user(usr,pas,fulname):
+    db["Credentials"].insert_one({"username":usr,"pasword":pas,"role":"student","full_name":fulname})
 st.markdown("""
 <style>
 .css-nqowgj.e1ewe7hr3{
@@ -30,4 +32,5 @@ with st.form("signup",clear_on_submit=True):
         else:
             create_user(usr,pas,fulname)
             st.success("User Created")
+            os.system("streamlit run login.py")
 
