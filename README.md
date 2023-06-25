@@ -2,7 +2,10 @@
 
 **Inspiration**
 
-Our project is inspired by the need to address food insecurity among students and improve the campus dining experience. By bridging communication between campus management and students, we aim to create sustainable food assistance programs and eliminate food insecurity. Our goal is to empower students, revamp campus dining, and ensure their well-being and academic success. Together, we can make a lasting impact on campus communities by fostering inclusivity and providing essential resources for students.
+As hostel residents ourselves, we understand the challenges you face. It can be disheartening to go to bed without knowing if there is any food available and where it is located. Additionally, being limited to meals decided by the management might not always align with your preferences, leading to dissatisfaction. This situation often forces students to spend additional money on meals from outside sources, which can strain their budgets and require careful expense management.
+
+Our project aims to alleviate these difficulties by providing a solution that enables effective communication and transparency between the management and students. Through features such as polls, notices, and food suggestions, we strive to ensure that you are well-informed about food availability, have a voice in food selection, and can make choices that align with your preferences. By enhancing the dining experience and reducing uncertainty, we aim to support your financial well-being and foster a more inclusive and satisfying food environment within the hostel.
+
 
 **What it Does**
 
