@@ -2,6 +2,39 @@ import streamlit as st
 import pymongo
 import os
 
+
+st.markdown("""
+<style>
+
+[data-testid="stAppViewContainer"]  {
+background-color: #FAD025;
+background-image: url("https://i.ibb.co/z7g7FVk/Untitled-design-10.png");
+background-repeat: no-repeat;
+background-size: 100% auto;
+}
+
+.css-18ni7ap.e13qjvis2{
+     visibility:hidden;
+}
+.css-nqowgj.e1ewe7hr3{
+visibility:hidden;
+}
+
+
+
+
+
+</style>
+""", unsafe_allow_html=True)
+
+
+st.image("campus.png")
+st.image("uni.png")
+
+
+
+
+
 client = pymongo.MongoClient("mongodb+srv://<username>:<password>@cluster0.ub5pbd6.mongodb.net/food?retryWrites=true&w=majority")
 db = client["Food"]
 collections = db['Credentials']
@@ -17,7 +50,7 @@ visibility:hidden;
 }
 </style>
 """,unsafe_allow_html=True)
-st.markdown("<h1 style='text-align:center'>Food selecty</h1>",unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center'>Sign-up</h1>",unsafe_allow_html=True)
 with st.form("signup",clear_on_submit=True):
     usr=st.text_input("Username")
     fulname=st.text_input("Full name")
@@ -34,3 +67,4 @@ with st.form("signup",clear_on_submit=True):
             st.success("User Created")
             os.system("streamlit run login.py")
 
+st.markdown("<p style='text-align:center'><a href='http://localhost:8505'>Login</a></p>",unsafe_allow_html=True)
