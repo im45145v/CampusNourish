@@ -1,46 +1,61 @@
 import streamlit as st
 import pymongo
 from pymongo import MongoClient
-
-
 client = MongoClient('mongodb+srv://[username]:[pass]@cluster0.ub5pbd6.mongodb.net/?retryWrites=true&w=majority',serverSelectionTimeoutMS=60000)
 db = client["Food"]
 collection = db["Recipes"]
-
-
-st.title("to make a poll by admin")
+st.title("Poll ")
 # Poll question
 question = st.text_input("Enter the poll question:" , key="beta")
 
-ingredients_str = st.text_input("Enter the ingredients available (seperated by commas):", key="gamma")
-ingredients = ingredients_str.split(',')
-
-
-results = collection.find()
-iterator = iter(results)
-for document in iterator:
-    if set(ingredients) <= set(document['ingredients']) :
-        st.write(document['dish_name'])
-
-client.close()
-
 # Poll options
 options = st.text_input("Enter the poll options (separated by commas):" , key="omega")
-if question:
-    with open("question.txt", "w") as file:
-        file.write(question)
-if  options:
-    # Save the user's input as a text file
-    with open("items.txt", "w") as file:
-        file.write(options)
-    st.success("question saved successfully!")
+options = [option.strip() for option in options.split(",")]
 
-#############################################################################
-st.title("to make a notice board for students by admin")
+# Display the poll question
+if question:
+    st.header(question)
+
+    # Display the radio buttons for options
+    selected_option = st.radio("Choose an option", options, key="pie")
+
+    # Display a button to submit the vote
+    submit_button = st.button("Submit Vote" , key="phi")
+
+    # Check if vote has already been submitted
+    vote_submitted = st.session_state.get("vote_submitted", False)
+
+    # Handle vote submission
+    if submit_button:
+        if not vote_submitted:
+            if selected_option:
+                st.success(f"You voted for {selected_option}!")
+                st.radio("Choose an option", options, key="pol", index=options.index(selected_option), disabled=True)
+
+                # Store the vote
+                votes = st.session_state.get("votes", {})
+                votes[selected_option] = votes.get(selected_option, 0) + 1
+                st.write("Current Votes:")
+                for option, count in votes.items():
+                    st.write(f"{option}: {count}")
+                st.session_state["votes"] = votes
+
+                # Mark vote as submitted
+                st.session_state["vote_submitted"] = True
+            else:
+                st.warning("Please select an option.")
+        else:
+            st.warning("Vote already submitted.")
+
+#######################################################################
+
+#st.title("to make a notice board for students by admin")
 def add_notice(notice):
+    # Append the notice to a persistent data source
     with open('notices.txt', 'a') as f:
         f.write(notice + '\n')
 
+# Function to delete a notice from the board
 def delete_notice(notice):
     # Remove the notice from the persistent data source
     with open('notices.txt', 'r') as f:
@@ -51,6 +66,7 @@ def delete_notice(notice):
             if n.strip() != notice.strip():
                 f.write(n)
 
+# Function to display all the notices
 def display_notice_board():
     st.title('Notice Board')
 
@@ -76,4 +92,9 @@ def display_notice_board():
         else:
             st.write('No notices found.')
 
+# Run the notice board app
 display_notice_board()
+
+st.markdown("---")
+############################################################
+
