@@ -40,12 +40,12 @@ if user_input:
             st.warning("Vote already submitted.")
 
 
-st.title("to see all notices made by admin ")
+#st.title("to see all notices made by admin ")
 def display_notice_board():
     st.title('Notice Board')
 
     # Display existing notices
-    st.title('All Notices')
+    #st.title('All Notices')
     with open('notices.txt', 'r') as f:
         notices = f.readlines()
         if notices:
