@@ -49,7 +49,7 @@ if question:
 
 #######################################################################
 
-#st.title("to make a notice board for students by admin")
+st.title("Make Notice")
 def add_notice(notice):
     # Append the notice to a persistent data source
     with open('notices.txt', 'a') as f:
