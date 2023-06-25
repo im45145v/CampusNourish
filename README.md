@@ -35,6 +35,19 @@ Development of a functional web app: We are proud to have built a working web ap
 
 Proficiency in using Streamlit: Through our project, we gained proficiency in using Streamlit, a powerful tool for creating interactive web applications with Python. Despite the limited availability of resources for our specific use case, we explored and learned how to leverage Streamlit to build a user-friendly interface for our app. This achievement highlights our adaptability and resourcefulness in learning new frameworks.
 
+##**Future of CampusNoursih**
+The future roadmap for Campus Nourish involves several exciting enhancements to further improve the user experience and provide additional valuable features. Here are the next steps we envision:
+
+Robust Recommendation System: We aim to develop a more advanced recommendation system that takes into account individual preferences, dietary restrictions, and past voting patterns. This will enable us to provide personalized food recommendations to students, ensuring they have access to meals they enjoy and find suitable.
+
+Hostel Laundry Management: We plan to integrate a hostel laundry management feature within the platform. This will allow students to schedule laundry services, track their laundry status, and receive notifications when their laundry is ready for pickup. It will streamline the laundry process and save time for students.
+
+Nutrition Chart and Recommendations: We recognize the importance of promoting healthy eating habits among students. To support this, we intend to incorporate a nutrition chart feature that provides nutritional information for various food items available on campus. Additionally, based on the individual's dietary preferences and requirements, we will offer tailored food recommendations that prioritize balanced nutrition.
+
+Expanded Dashboard and Analytics: We will expand the administrative dashboard to provide more comprehensive analytics and insights. This will enable campus management to make data-driven decisions, track food preferences, monitor resource utilization, and identify areas for improvement.
+
+By implementing these enhancements, we aim to further empower students, promote their well-being, and optimize the campus dining experience. We are committed to continually evolving and adding value to the Campus Nourish platform, ensuring it remains a vital resource for the student community.
+
 Overall, we take pride in these accomplishments as they signify our growth, teamwork, and ability to overcome challenges throughout our project journey.
 
 
