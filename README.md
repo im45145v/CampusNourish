@@ -3,6 +3,12 @@
 
 ## Inspiration💡 ##
 
+<table style="border: none;">
+<tr>
+  <td>This initiative aims to create an inclusive and supportive environment for students and administrative management and provides student preferences and budget considerations , promoting healthy eating habits to students</td>
+<td><img src="https://i.ibb.co/Zxjvbqc/Yummy-Smile-Delicious-Tasty-Eating-Emoji-Stock-Vector-Royalty-Free-1134500144-Shutterstock.jpg"/></td>
+</tr>
+</table>
 
 As *hostel residents* 👨🏻‍🦰 ourselves, we understand the challenges you face. 😔 It can be disheartening to go to bed without knowing if there is any **food available** and where it is located. 🍽️ Additionally, being limited to meals decided by the *management* might not always align with your *preferences*, leading to dissatisfaction. 😕 This situation often forces students to spend *additional money* on meals from outside sources, which can strain their **budgets** and require careful **expense management**. 💸
 
@@ -48,4 +54,4 @@ Robust Recommendation System: We aim to develop a more advanced recommendation s
 
 Overall, we take pride in these accomplishments as they signify our *growth*, *teamwork*, and *ability* to overcome challenges throughout our project journey. 🌟👨‍👩‍👧‍👦🚀
 
-![image](https://i.ibb.co/Zxjvbqc/Yummy-Smile-Delicious-Tasty-Eating-Emoji-Stock-Vector-Royalty-Free-1134500144-Shutterstock.jpg)
+![image](https://i.ibb.co/RzpjtWT/35-Hilarious-Food-Memes.jpg)
