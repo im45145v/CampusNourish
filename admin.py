@@ -26,7 +26,7 @@ visibility:hidden;
 """, unsafe_allow_html=True)
 
 
-client = MongoClient('mongodb+srv://21311a6611:Waffle@cluster0.ub5pbd6.mongodb.net/?retryWrites=true&w=majority',serverSelectionTimeoutMS=60000)
+client = MongoClient('mongodb+srv://<username>:<pass>@cluster0.ub5pbd6.mongodb.net/?retryWrites=true&w=majority',serverSelectionTimeoutMS=60000)
 db = client["Food"]
 collection = db["Recipes"]
 
