@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 import streamlit as st
 
-client = MongoClient('mongodb+srv://21311a6611:Waffle@cluster0.ub5pbd6.mongodb.net/',serverSelectionTimeoutMS=60000)
+client = MongoClient('mongodb+srv://[user]:[pass]@cluster0.ub5pbd6.mongodb.net/',serverSelectionTimeoutMS=60000)
 db = client["Food"]
 collection = db["Recipes"]
 
