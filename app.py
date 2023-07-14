@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with your own secret key
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate('path/to/serviceAccountKey.json')  # Replace with your own service account key file
+cred = credentials.Certificate('serviceAccountKey.json')  # Replace with your own service account key file
 firebase_admin.initialize_app(cred)
 
 # Login route
