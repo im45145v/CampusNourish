@@ -1,78 +1,114 @@
-from flask import Flask, render_template, redirect, request, session
-import firebase_admin
-from firebase_admin import credentials, auth
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+import pyrebase
+from pymongo import MongoClient
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with your own secret key
+app.secret_key = ""
+
+config={
+  "apiKey": "",
+  "authDomain": "",
+  "databaseURL": "",
+  "projectId": "",
+  "storageBucket": "",
+  "messagingSenderId": "",
+  "appId": "",
+  "measurementId": ""}
+
+
+
+# Connect to MongoDB
+client = MongoClient('mongodb+srv://<username>:<pass>@cluster0.ub5pbd6.mongodb.net/?retryWrites=true&w=majority', serverSelectionTimeoutMS=60000)
+db = client["Food"]
+collection = db["Recipes"]
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate('serviceAccountKey.json')  # Replace with your own service account key file
-firebase_admin.initialize_app(cred)
+firebase=pyrebase.initialize_app(config)
+auth = firebase.auth()
 
-# Login route
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if 'user_id' in session:
-        return redirect('/dashboard')
 
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
 
-        try:
-            user = auth.get_user_by_email(email)
-            auth.verify_password(password, user.password_hash)
 
-            session['user_id'] = user.uid
 
-            return redirect('/dashboard')
-        except auth.AuthError as e:
-            error_message = str(e)
-            return render_template('login.html', error=error_message)
+@app.route('/notices', methods=['GET', 'POST'])
+def notices():
+    NoticeBoard = db["Notices"]
+    notices = iter(NoticeBoard.find())
+    return render_template('noticeBoard.html', notices=notices)
 
-    return render_template('login.html')
-
-# Signup route
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if 'user_id' in session:
-        return redirect('/dashboard')
-
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-
-        try:
-            user = auth.create_user(
-                email=email,
-                password=password
-            )
-
-            session['user_id'] = user.uid
-
-            return redirect('/dashboard')
-        except auth.AuthError as e:
-            error_message = str(e)
-            return render_template('signup.html', error=error_message)
-
-    return render_template('signup.html')
-
-# Dashboard route
-@app.route('/dashboard')
-def dashboard():
-    if 'user_id' not in session:
-        return redirect('/login')
-
-    user_id = session['user_id']
-    user = auth.get_user(user_id)
-
-    return render_template('dashboard.html', user_email=user.email)
-
-# Logout route
-@app.route('/logout', methods=['POST'])
-def logout():
-    session.pop('user_id', None)
+# Home page
+@app.route('/')
+def index():
     return redirect('/login')
 
+# Signup page
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        try:
+            user = auth.create_user_with_email_and_password(email, password)
+            return redirect(url_for('login'))
+        except Exception as e:
+            error_message = str(e)
+            return render_template('signup.html', error_message=error_message)
+    return render_template('signup.html')
+
+# Login page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        try:
+            user = auth.sign_in_with_email_and_password(email, password)
+            session['user_token'] = user['idToken']
+            return redirect(url_for('dashboard'))
+        except Exception as e:
+            error_message = str(e)
+            return render_template('login.html', error_message=error_message)
+    return render_template('login.html')
+
+# Dashboard page
+@app.route('/dashboard')
+def dashboard():
+    user_token = session.get('user_token')
+    if user_token:
+        try:
+            # Use the user_token to fetch user-specific data from Firebase Realtime Database
+            user_email = auth.get_account_info(user_token)['users'][0]['email']
+            return render_template('dashboard.html', user_email=user_email)
+        except Exception as e:
+            print("Error fetching user data:", e)
+            return redirect(url_for('login'))
+    return redirect(url_for('login'))
+
+@app.route('/vote', methods=['GET', 'POST'])
+def vote():
+    Poll = db['Poll']
+    polls = iter(Poll.find())
+    if request.method == 'POST':
+        selected_options = {}
+        for poll in polls:
+            poll_title = poll['title']
+            selected_options[poll_title] = request.form.get(poll_title)
+            Poll.update_one(
+            {"title": poll_title},
+            {"$addToSet": {f"{selected_options[poll_title]}": auth.get_account_info(session.get('user_token'))['users'][0]['email']}},
+            )
+            Poll.update_one({"title":poll_title},{"$push": {"voters": auth.get_account_info(session.get('user_token'))['users'][0]['email']}})      
+        return redirect(url_for('dashboard'))
+    return render_template('Polls.html',polls=polls)
+
+
+# Logout
+@app.route('/logout')
+def logout():
+    session.pop('user_token', None)
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
