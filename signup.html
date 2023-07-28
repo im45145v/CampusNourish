@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Signup Page</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Signup</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Sign Up</h1>
-        {% if error %}
-            <p class="error">{{ error }}</p>
-        {% endif %}
-        <form id="signupForm" action="/signup" method="POST">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Sign Up</button>
-        </form>
-    </div>
-
-    <script src="signup.js"></script>
+    <h1>Signup</h1>
+    <form method="post" action="{{ url_for('signup') }}">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Signup</button>
+    </form>
+    {% if error_message %}
+    <p>{{ error_message }}</p>
+    {% endif %}
 </body>
 </html>
