@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notice Board</title>
+    
+</head>
+<body>
+    <h1>Notice Board</h1>
+    <h2>Notices</h2>
+    <ul>
+        {% for categories in notices %}
+            <h3>{{ categories['category'] }}</h3>
+            {% for notice in categories['notices'] %}
+                <li>{{ notice }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
