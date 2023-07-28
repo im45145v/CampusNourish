@@ -2,17 +2,27 @@
 <html>
 <head>
     <title>Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-<body>
-    <div class="container">
-        <h1>Dashboard</h1>
-        <h2>You are logged in</h2>
-        <form id="logoutForm" action="/logout" method="POST">
-            <button id="logoutButton" type="submit">Logout</button>
-        </form>
-    </div>
-
-    <script src="dashboard.js"></script>
+<body><!DOCTYPE html>
+        <title>Notice Board</title>
+        <style>
+            /* Add your custom CSS styles here */
+            /* ... */
+        </style>
+    </head>
+    <body>
+        <!-- Notice board content goes here 
+        <h1>Notice Board</h1>
+        Display notices using Jinja templating 
+        {% if notices %}
+            {% for i, notice in enumerate(notices, start=1) %}
+                <p>{{ i }}. {{ notice }}</p>
+            {% endfor %}
+        {% else %}
+            <p>No notices found.</p>
+        {% endif %} -->
+    <a href="{{ url_for('notices') }}">Notice Board</a>
+    <a href="{{ url_for('vote') }}">Notice Board</a>    
+    <a href="{{ url_for('logout') }}">Logout</a>
 </body>
 </html>
