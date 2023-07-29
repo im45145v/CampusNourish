@@ -95,22 +95,24 @@ def dashboard():
             return redirect(url_for('login'))
     return redirect(url_for('login'))
 
+
 @app.route('/vote', methods=['GET', 'POST'])
 def vote():
     Poll = db['Poll']
-    polls = iter(Poll.find())
+    polls = list(Poll.find())  # Convert polls to a list instead of an iterator
     if request.method == 'POST':
         selected_options = {}
         for poll in polls:
             poll_title = poll['title']
             selected_options[poll_title] = request.form.get(poll_title)
             Poll.update_one(
-            {"title": poll_title},
-            {"$addToSet": {f"{selected_options[poll_title]}": auth.get_account_info(session.get('user_token'))['users'][0]['email']}},
+                {"title": poll_title},
+                {"$addToSet": {f"{selected_options[poll_title]}": auth.get_account_info(session.get('user_token'))['users'][0]['email']}},
             )
-            Poll.update_one({"title":poll_title},{"$push": {"voters": auth.get_account_info(session.get('user_token'))['users'][0]['email']}})      
-        return redirect(url_for('dashboard'))
-    return render_template('Polls.html',polls=polls)
+            Poll.update_one({"title": poll_title}, {"$push": {"voters": auth.get_account_info(session.get('user_token'))['users'][0]['email']}})
+        return redirect(url_for('vote'))
+    return render_template('Polls.html', polls=polls)
+
 
 
 # Logout
