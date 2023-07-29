@@ -7,12 +7,12 @@ import os
 load_dotenv('.env')
 
 app = Flask(__name__)
-app.secret_key = os.getenv('secret_key')
+app.secret_key = "1324456789"
 client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
-admins = os.getenv('admins')
-admin_mails = os.getenv('admin_mails')
+admins = [os.getenv('admins')]
+admin_mails = [os.getenv('admin_mails')]
 config={
-  "apiKey":os.getenv('apiKey') ,
+  "apiKey":'AIzaSyDjbJLgQaUze5NjB97pFnQLtV23aGkH1fA' ,
   "authDomain":os.getenv("authDomain") ,
   "databaseURL":os.getenv("databaseURL") ,
   "projectId": os.getenv("projectId"),
