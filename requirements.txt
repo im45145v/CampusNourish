@@ -1,4 +1,0 @@
-streamlit
-pymongo
-flask
-firebase-admin
