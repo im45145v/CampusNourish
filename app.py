@@ -2,9 +2,9 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 import pyrebase
 from pymongo import MongoClient
 import jinja2
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import os
-load_dotenv('.env')
+#load_dotenv('.env')
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('secret_key')
