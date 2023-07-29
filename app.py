@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 import pyrebase
 from pymongo import MongoClient
 import var
+import jinja2
+
 app = Flask(__name__)
 app.secret_key = var.secret_key_var
 
@@ -16,6 +18,10 @@ app.secret_key = var.secret_key_var
 #   "measurementId": ""}
 config=var.config
 
+def unique_count(lst):
+    return len(set(lst))
+
+app.jinja_env.filters['unique_count'] = unique_count
 
 # Connect to MongoDB
 client = MongoClient(var.mongostr, serverSelectionTimeoutMS=60000)
