@@ -3,6 +3,7 @@ import pyrebase
 from pymongo import MongoClient
 import var
 import jinja2
+import os
 
 app = Flask(__name__)
 app.secret_key = var.secret_key_var
@@ -211,5 +212,6 @@ def ingredients():
     return render_template('ingredients.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    host = os.environ.get('HOST', '0.0.0.0')
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host=host, port=port)
