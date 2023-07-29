@@ -3,21 +3,24 @@ import pyrebase
 from pymongo import MongoClient
 import var
 import jinja2
+from dotenv import load_dotenv
 import os
+load_dotenv('.env')
 
 app = Flask(__name__)
-app.secret_key = var.secret_key_var
-
-# config={
-#   "apiKey": "",
-#   "authDomain": "",
-#   "databaseURL": "",
-#   "projectId": "",
-#   "storageBucket": "",
-#   "messagingSenderId": "",
-#   "appId": "5",
-#   "measurementId": ""}
-config=var.config
+app.secret_key = os.getenv('secret_key')
+client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
+admins = os.getenv('admins')
+admin_mails = os.getenv('admin_mails')
+config={
+  "apiKey":os.getenv('apiKey') ,
+  "authDomain":os.getenv("authDomain") ,
+  "databaseURL":os.getenv("databaseURL") ,
+  "projectId": os.getenv("projectId"),
+  "storageBucket": os.getenv("storageBucket"),
+  "messagingSenderId": os.getenv("messagingSenderId"),
+  "appId": os.getenv("appId"),
+  "measurementId": os.getenv("measurementId")}
 
 def unique_count(lst):
     return len(set(lst))
@@ -25,15 +28,12 @@ def unique_count(lst):
 app.jinja_env.filters['unique_count'] = unique_count
 
 # Connect to MongoDB
-client = MongoClient(var.mongostr, serverSelectionTimeoutMS=60000)
 db = client["Food"]
 
 # Initialize Firebase Admin SDK
 firebase=pyrebase.initialize_app(config)
 auth = firebase.auth()
 
-admins = var.admins
-admin_mails = var.admin_mails
 
 
 
