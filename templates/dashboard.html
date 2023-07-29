@@ -2,27 +2,58 @@
 <html>
 <head>
     <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #0066cc;
+            margin: 0 10px;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #e6f3ff;
+        }
+    </style>
 </head>
-<body><!DOCTYPE html>
-        <title>Notice Board</title>
-        <style>
-            /* Add your custom CSS styles here */
-            /* ... */
-        </style>
-    </head>
-    <body>
-        <!-- Notice board content goes here 
-        <h1>Notice Board</h1>
-        Display notices using Jinja templating 
-        {% if notices %}
-            {% for i, notice in enumerate(notices, start=1) %}
-                <p>{{ i }}. {{ notice }}</p>
-            {% endfor %}
-        {% else %}
-            <p>No notices found.</p>
-        {% endif %} -->
-    <a href="{{ url_for('notices') }}">Notice Board</a>
-    <a href="{{ url_for('vote') }}">vote</a>    
-    <a href="{{ url_for('logout') }}">Logout</a>
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('notices') }}">Notice Board</a>
+            <a href="{{ url_for('vote') }}">Vote</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+        <!-- Dashboard content goes here -->
+    </div>
 </body>
 </html>

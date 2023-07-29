@@ -2,26 +2,91 @@
 <html>
 <head>
     <title>Poll Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0052a3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Create New Poll</h1>
-    <form action="/create_poll" method="post">
-        <label for="option1">Option 1:</label>
-        <input type="text" id="option1" name="option1" required>
-        <label for="option2">Option 2:</label>
-        <input type="text" id="option2" name="option2" required>
-        <button type="submit">Create Poll</button>
-    </form>
+    <div class="container">
+        <h1>Create New Poll</h1>
+        <form action="/create_poll" method="post">
+            <label for="option1">Option 1:</label>
+            <input type="text" id="option1" name="option1" required>
+            <label for="option2">Option 2:</label>
+            <input type="text" id="option2" name="option2" required>
+            <button type="submit">Create Poll</button>
+        </form>
 
-    <h1>Existing Polls</h1>
-    <form action="/remove_polls" method="post">
-        {% for poll in polls %}
-        <div>
-            <input type="checkbox" name="remove" value="{{ poll['title'] }}">
-            <label>{{ poll['title'] }}</label>
-        </div>
-        {% endfor %}
-        <button type="submit">Remove Selected Polls</button>
-    </form>
+        <h1>Existing Polls</h1>
+        <form action="/remove_polls" method="post">
+            {% for poll in polls %}
+            <div>
+                <input type="checkbox" name="remove" value="{{ poll['title'] }}" id="{{ poll['title'] }}">
+                <label for="{{ poll['title'] }}">{{ poll['title'] }}</label>
+            </div>
+            {% endfor %}
+            <button type="submit">Remove Selected Polls</button>
+        </form>
+    </div>
 </body>
 </html>

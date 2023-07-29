@@ -1,24 +1,24 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 import pyrebase
 from pymongo import MongoClient
-
+import var
 app = Flask(__name__)
-app.secret_key = "1324456789"
+app.secret_key = var.secret_key_var
 
-config={
-  "apiKey": "",
-  "authDomain": "",
-  "databaseURL": "",
-  "projectId": "",
-  "storageBucket": "",
-  "messagingSenderId": "",
-  "appId": "",
-  "measurementId": ""}
-
+# config={
+#   "apiKey": "",
+#   "authDomain": "",
+#   "databaseURL": "",
+#   "projectId": "",
+#   "storageBucket": "",
+#   "messagingSenderId": "",
+#   "appId": "5",
+#   "measurementId": ""}
+config=var.config
 
 
 # Connect to MongoDB
-client = MongoClient('mongodb+srv://<username>:<pass>@cluster0.ub5pbd6.mongodb.net/?retryWrites=true&w=majority', serverSelectionTimeoutMS=60000)
+client = MongoClient(var.mongostr, serverSelectionTimeoutMS=60000)
 db = client["Food"]
 
 # Initialize Firebase Admin SDK
