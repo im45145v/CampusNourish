@@ -3,7 +3,7 @@ import pyrebase
 from pymongo import MongoClient
 
 app = Flask(__name__)
-app.secret_key = ""
+app.secret_key = "1324456789"
 
 config={
   "apiKey": "",
@@ -20,12 +20,12 @@ config={
 # Connect to MongoDB
 client = MongoClient('mongodb+srv://<username>:<pass>@cluster0.ub5pbd6.mongodb.net/?retryWrites=true&w=majority', serverSelectionTimeoutMS=60000)
 db = client["Food"]
-collection = db["Recipes"]
 
 # Initialize Firebase Admin SDK
 firebase=pyrebase.initialize_app(config)
 auth = firebase.auth()
 
+admins = ['admin-localID']
 
 
 
@@ -66,6 +66,8 @@ def login():
         try:
             user = auth.sign_in_with_email_and_password(email, password)
             session['user_token'] = user['idToken']
+            if user['localId'] in admins:
+                return redirect(url_for('admin'))
             return redirect(url_for('dashboard'))
         except Exception as e:
             error_message = str(e)
@@ -194,6 +196,6 @@ def ingredients():
 
     return render_template('ingredients.html')
 
-
 if __name__ == '__main__':
     app.run(debug=True)
+
