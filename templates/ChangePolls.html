@@ -83,6 +83,8 @@
             <div>
                 <input type="checkbox" name="remove" value="{{ poll['title'] }}" id="{{ poll['title'] }}">
                 <label for="{{ poll['title'] }}">{{ poll['title'] }}</label>
+                <p>{{poll["options"][0]}}: {{len(set(poll["options"][0]))}}</p>
+                <p>{{poll["options"][1]}} :{{len(set(poll["options"][1]))}}</p>
             </div>
             {% endfor %}
             <button type="submit">Remove Selected Polls</button>
