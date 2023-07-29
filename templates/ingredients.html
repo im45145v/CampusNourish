@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ingredients Search</title>
+</head>
+<body>
+    <h1>Ingredients Search</h1>
+    <form action="/ingredients" method="post">
+        <label for="ingredients">Enter ingredients (separated by commas):</label>
+        <input type="text" id="ingredients" name="ingredients" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if matching_dishes %}
+    <h2>Matching Dishes:</h2>
+    <ul>
+        {% for dish in matching_dishes %}
+        <li>{{ dish }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No dishes found for the given ingredients.</p>
+    {% endif %}
+</body>
+</html>
