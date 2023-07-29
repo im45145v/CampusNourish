@@ -26,6 +26,7 @@ firebase=pyrebase.initialize_app(config)
 auth = firebase.auth()
 
 admins = ['admin-localID']
+admin_mails = ['admin-mail']
 
 
 
@@ -116,7 +117,11 @@ def logout():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+    user_token = session.get('user_token')
+    if user_token:
+        if auth.get_account_info(user_token)['users'][0]['email'] in admin_mails:
+            return render_template('admin.html')
+
 
 @app.route('/create_poll', methods=['POST'])
 def create_poll():
@@ -147,7 +152,8 @@ def remove_notices():
 def handle_polls():
     Polls = db["Poll"]
     polls = list(Polls.find())
-    return render_template('ChangePolls.html', polls=polls)
+    if auth.get_account_info(user_token)['users'][0]['email'] in admin_mails:
+        return render_template('ChangePolls.html', polls=polls)
 
 
 @app.route('/create_notice', methods=['POST'])
@@ -178,7 +184,8 @@ def remove_selected_notices():
 def handle_notices():
     NoticeBoard = db["Notices"]
     notices = list(NoticeBoard.find())
-    return render_template('ChangeNoticeBoard.html', notices=notices)
+    if auth.get_account_info(user_token)['users'][0]['email'] in admin_mails:
+        return render_template('ChangeNoticeBoard.html', notices=notices)
 
 
 
@@ -191,10 +198,11 @@ def ingredients():
         # Perform the poll logic based on ingredients and display the results
         results = db['Recipes'].find()
         matching_dishes = [document['dish_name'] for document in results if set(ingredients) <= set(document['ingredients'])]
-
+ 
         return render_template('ingredients.html', matching_dishes=matching_dishes)
-
-    return render_template('ingredients.html')
+        
+    if auth.get_account_info(user_token)['users'][0]['email'] in admin_mails:
+        return render_template('ingredients.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
