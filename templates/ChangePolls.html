@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poll Management</title>
+</head>
+<body>
+    <h1>Create New Poll</h1>
+    <form action="/create_poll" method="post">
+        <label for="option1">Option 1:</label>
+        <input type="text" id="option1" name="option1" required>
+        <label for="option2">Option 2:</label>
+        <input type="text" id="option2" name="option2" required>
+        <button type="submit">Create Poll</button>
+    </form>
+
+    <h1>Existing Polls</h1>
+    <form action="/remove_polls" method="post">
+        {% for poll in polls %}
+        <div>
+            <input type="checkbox" name="remove" value="{{ poll['title'] }}">
+            <label>{{ poll['title'] }}</label>
+        </div>
+        {% endfor %}
+        <button type="submit">Remove Selected Polls</button>
+    </form>
+</body>
+</html>

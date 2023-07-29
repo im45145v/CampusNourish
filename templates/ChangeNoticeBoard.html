@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Change Notice Board</title>
+</head>
+<body>
+    <h1>Change Notice Board</h1>
+
+    <form action="/create_notice" method="post">
+        <h2>Create Notice</h2>
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" required>
+        <label for="notice">Notice:</label>
+        <input type="text" id="notice" name="notice" required>
+        <button type="submit">Create Notice</button>
+    </form>
+
+    <form action="/remove_notices" method="post">
+        <h2>Remove Notices</h2>
+        {% for category in notices %}
+            <h3>{{ category.category }}</h3>
+            {% for notice in category.notices %}
+                <label>
+                    <input type="checkbox" name="remove" value="{{ notice }}">
+                    {{ notice }}
+                </label><br>
+            {% endfor %}
+        {% endfor %}
+        <button type="submit">Remove Selected Notices</button>
+    </form>
+
+</body>
+</html>
