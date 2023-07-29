@@ -110,5 +110,90 @@ def logout():
     session.pop('user_token', None)
     return redirect(url_for('index'))
 
+###############################################################################################
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+@app.route('/create_poll', methods=['POST'])
+def create_poll():
+    Polls = db["Poll"]
+    option1 = request.form.get('option1')
+    option2 = request.form.get('option2')
+    new_poll = {
+        "title": f"{option1} vs {option2}",
+        "options": [option1,option2],
+        f"{option1}": [],
+        f"{option2}": [],
+        "voters": []
+    }
+    Polls.insert_one(new_poll)
+    return redirect('/handle_polls')
+
+@app.route('/remove_polls', methods=['POST'])
+def remove_notices():
+    Polls = db["Poll"]
+    selected_polls = request.form.getlist('remove')
+    for title in selected_polls:
+        Polls.delete_one({"title": title})
+    
+    return redirect('/handle_polls')
+
+
+@app.route('/handle_polls', methods=['GET'])
+def handle_polls():
+    Polls = db["Poll"]
+    polls = list(Polls.find())
+    return render_template('ChangePolls.html', polls=polls)
+
+
+@app.route('/create_notice', methods=['POST'])
+def create_notice():
+    NoticeBoard = db["Notices"]
+    category = request.form.get('category')
+    notice = request.form.get('notice')
+    NoticeBoard.update_one(
+        {"category": category},
+        {"$push": {"notices": notice}}
+    )
+    return redirect('/handle_notices')
+
+@app.route('/remove_notices', methods=['POST'])
+def remove_selected_notices():
+    NoticeBoard = db["Notices"]
+    selected_notices = request.form.getlist('remove')
+    for category in NoticeBoard.find():
+        for notice in category['notices']:
+            if notice in selected_notices:
+                NoticeBoard.update_one(
+                    {"category": category['category']},
+                    {"$pull": {"notices": notice}}
+                )
+    return redirect('/handle_notices')
+
+@app.route('/handle_notices', methods=['GET'])
+def handle_notices():
+    NoticeBoard = db["Notices"]
+    notices = list(NoticeBoard.find())
+    return render_template('ChangeNoticeBoard.html', notices=notices)
+
+
+
+@app.route('/ingredients', methods=['GET', 'POST'])
+def ingredients():
+    if request.method == 'POST':
+        ingredients_str = request.form.get('ingredients')
+        ingredients = ingredients_str.split(',')
+
+        # Perform the poll logic based on ingredients and display the results
+        results = db['Recipes'].find()
+        matching_dishes = [document['dish_name'] for document in results if set(ingredients) <= set(document['ingredients'])]
+
+        return render_template('ingredients.html', matching_dishes=matching_dishes)
+
+    return render_template('ingredients.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
