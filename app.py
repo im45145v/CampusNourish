@@ -198,10 +198,11 @@ def ingredients():
         # Perform the poll logic based on ingredients and display the results
         results = db['Recipes'].find()
         matching_dishes = [document['dish_name'] for document in results if set(ingredients) <= set(document['ingredients'])]
-
+ 
         return render_template('ingredients.html', matching_dishes=matching_dishes)
-
-    return render_template('ingredients.html')
+        
+    if auth.get_account_info(user_token)['users'][0]['email'] in admin_mails:
+        return render_template('ingredients.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
