@@ -1,0 +1,4 @@
+flask
+pyrebase4
+pymongo
+jinja2
