@@ -12,7 +12,7 @@ client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
 admins = [os.getenv('admins')]
 admin_mails = [os.getenv('admin_mails')]
 config={
-  "apiKey":'AIzaSyDjbJLgQaUze5NjB97pFnQLtV23aGkH1fA' ,
+  "apiKey":os.getenv("apiKey") ,
   "authDomain":os.getenv("authDomain") ,
   "databaseURL":os.getenv("databaseURL") ,
   "projectId": os.getenv("projectId"),
