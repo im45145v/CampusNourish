@@ -2,3 +2,4 @@ Flask
 gunicorn
 pyrebase4
 pymongo
+python-dotenv
