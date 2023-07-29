@@ -7,7 +7,7 @@ import os
 #load_dotenv('.env')
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('secret_key')
+app.secret_key = os.environ.get('SECRET_KEY','1324456789')
 client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
 admins = [os.getenv('admins')]
 admin_mails = [os.getenv('admin_mails')]
