@@ -152,8 +152,7 @@ def remove_notices():
 def handle_polls():
     Polls = db["Poll"]
     polls = list(Polls.find())
-    if auth.get_account_info(user_token)['users'][0]['email'] in admin_mails:
-        return render_template('ChangePolls.html', polls=polls)
+    return render_template('ChangePolls.html', polls=polls)
 
 
 @app.route('/create_notice', methods=['POST'])
@@ -184,8 +183,8 @@ def remove_selected_notices():
 def handle_notices():
     NoticeBoard = db["Notices"]
     notices = list(NoticeBoard.find())
-    if auth.get_account_info(user_token)['users'][0]['email'] in admin_mails:
-        return render_template('ChangeNoticeBoard.html', notices=notices)
+
+    return render_template('ChangeNoticeBoard.html', notices=notices)
 
 
 
@@ -200,9 +199,8 @@ def ingredients():
         matching_dishes = [document['dish_name'] for document in results if set(ingredients) <= set(document['ingredients'])]
  
         return render_template('ingredients.html', matching_dishes=matching_dishes)
-        
-    if auth.get_account_info(user_token)['users'][0]['email'] in admin_mails:
-        return render_template('ingredients.html')
+    
+    return render_template('ingredients.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
