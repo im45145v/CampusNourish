@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 import pyrebase
 from pymongo import MongoClient
-import var
 import jinja2
 from dotenv import load_dotenv
 import os
