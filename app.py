@@ -31,8 +31,8 @@ db = client["Food"]
 firebase=pyrebase.initialize_app(config)
 auth = firebase.auth()
 
-admins = ['admin-localID']
-admin_mails = ['admin-mail']
+admins = var.admins
+admin_mails = var.admin_mails
 
 
 
