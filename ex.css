@@ -72,9 +72,7 @@ body {
     font-weight: bold;
   }
   
-  button:hover {
-    background-color: #45a049;
-  }
+  
   
   .post {
     border: 1px solid #ccc;
@@ -100,4 +98,50 @@ body {
     margin: 10px 0;
     border-radius: 5px;
   }
+  
+/* ... existing CSS code ... */
+
+/* ... existing CSS code ... */
+
+.like-button, .comment-button {
+    background-color: transparent;
+    color: #333;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  
+  .like-button:not(.liked):hover,
+  .comment-button:hover {
+    color: #333;
+  }
+  
+  .like-button.liked {
+    color: #FF0000;
+     /* Red color when liked */
+  }
+  
+  .like-comment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  
+  .comment-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .comment-section input[type="text"],
+  .comment-section button {
+    margin-right: 5px;
+  }
+  
+
+  /* ... existing CSS code ... */
   
