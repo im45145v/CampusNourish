@@ -1,25 +1,14 @@
+from hedera import AccountCreateTransaction, PrivateKey, Client, AccountId, Hbar, TransferTransaction,AccountBalanceQuery
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 import pyrebase
 from pymongo import MongoClient
 import jinja2
-#from dotenv import load_dotenv
-import os
-#load_dotenv('.env')
+import env
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY','1324456789')
-client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
-admins = [os.getenv('admins')]
-admin_mails = [os.getenv('admin_mails')]
-config={
-  "apiKey":os.getenv("apiKey") ,
-  "authDomain":os.getenv("authDomain") ,
-  "databaseURL":os.getenv("databaseURL") ,
-  "projectId": os.getenv("projectId"),
-  "storageBucket": os.getenv("storageBucket"),
-  "messagingSenderId": os.getenv("messagingSenderId"),
-  "appId": os.getenv("appId"),
-  "measurementId": os.getenv("measurementId")}
+app.secret_key = "1324456789"
+
+config = env.config
 
 def unique_count(lst):
     return len(set(lst))
@@ -27,13 +16,64 @@ def unique_count(lst):
 app.jinja_env.filters['unique_count'] = unique_count
 
 # Connect to MongoDB
+client = MongoClient(env.mongo, serverSelectionTimeoutMS=60000)
 db = client["Food"]
 
 # Initialize Firebase Admin SDK
 firebase=pyrebase.initialize_app(config)
 auth = firebase.auth()
 
+admins = env.admins
+admin_mails = env.admin_mails
 
+db = firebase.database()
+
+# Initialize the Hedera client with your account credentials
+# Replace with your Hedera network configuration (e.g., mainnet or testnet)
+hedera_client = Client("testnet.hedera.com:50211", operator_account_id=env.OPERATOR_ID, operator_private_key=env.OPERATOR_KEY)
+
+def find_or_create_hedera_account(email):
+    # Check if the user already has a Hedera account associated with their email
+    user_ref = db.collection('users').where('email', '==', email).get()
+    for user in user_ref:
+        if 'hedera_account_id' in user.to_dict():
+            return user.to_dict()['hedera_account_id']
+
+    # If the email doesn't exist in your database, create a new Hedera account for the user
+    new_key = PrivateKey.generate()
+    resp = AccountCreateTransaction().setKey(new_key.getPublicKey()).setInitialBalance(Hbar(1)).execute(hedera_client)
+    account_id = resp.getReceipt(hedera_client).accountId
+
+    # Store the new Hedera account ID in your database associated with the user's email
+    user_data = {'email': email, 'hedera_account_id': account_id.toString()}
+    db.collection('users').add(user_data)
+
+    return account_id.toString()
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        try:
+            # Step 1: Create user in Firebase Auth
+            user = auth.create_user_with_email_and_password(email, password)
+
+            # Step 2: Create Hedera account and associate it with the user's email
+            hedera_account_id = find_or_create_hedera_account(email)
+
+            # For demonstration purposes, we'll store only the Hedera account ID in the user's Firebase data.
+            # You may need to extend your database schema to store other user-related data.
+            user_data = {'email': email, 'hedera_account_id': hedera_account_id}
+            db.collection('users').add(user_data)
+
+            return redirect(url_for('login'))
+        except Exception as e:
+            error_message = str(e)
+            return render_template('signup.html', error_message=error_message)
+
+    return render_template('signup.html')
 
 
 
@@ -47,21 +87,6 @@ def notices():
 @app.route('/')
 def index():
     return redirect('/login')
-
-# Signup page
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        
-        try:
-            user = auth.create_user_with_email_and_password(email, password)
-            return redirect(url_for('login'))
-        except Exception as e:
-            error_message = str(e)
-            return render_template('signup.html', error_message=error_message)
-    return render_template('signup.html')
 
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
@@ -95,7 +120,6 @@ def dashboard():
             return redirect(url_for('login'))
     return redirect(url_for('login'))
 
-
 @app.route('/vote', methods=['GET', 'POST'])
 def vote():
     Poll = db['Poll']
@@ -114,12 +138,121 @@ def vote():
     return render_template('Polls.html', polls=polls)
 
 
-
 # Logout
 @app.route('/logout')
 def logout():
     session.pop('user_token', None)
     return redirect(url_for('index'))
+
+
+
+@app.route('/wallet')
+def wallet():
+    user_token = session.get('user_token')
+    if user_token:
+        try:
+            # Fetch user-specific data from Firebase Realtime Database
+            user_email = auth.get_account_info(user_token)['users'][0]['email']
+            user_doc = db.collection('users').document(user_email).get().to_dict()
+            hedera_account_id = user_doc.get('hedera_account_id')
+
+            if not hedera_account_id:
+                # If Hedera account ID is not associated with the user, create one
+                hedera_account_id = find_or_create_hedera_account(user_email)
+                # Save the Hedera account ID in the user's database document
+                db.collection('users').document(user_email).update({'hedera_account_id': hedera_account_id})
+
+            # Get the account balance from Hedera
+            balance = AccountBalanceQuery().setAccountId(hedera_account_id).execute(hedera_client).hbars.toString()
+
+            # Get the admin details from the database (replace 'admin_email' with the field name in your database)
+            admin_doc = db.collection('admins').document('admin_id').get().to_dict()
+            admin_account_id = admin_doc.get('hedera_account_id')
+
+            # Fetch transaction history from the database (replace 'transaction_history' with the field name in your database)
+            transaction_history = db.collection('users').document(user_email).get().to_dict().get('transaction_history', [])
+
+            return render_template('wallet.html', user_email=user_email, balance=balance,
+                                   admin_account_id=admin_account_id, transaction_history=transaction_history)
+        except Exception as e:
+            print("Error fetching user data:", e)
+            return redirect(url_for('login'))
+
+    return redirect(url_for('login'))
+
+
+@app.route('/transaction', methods=['POST'])
+def transaction():
+    user_token = session.get('user_token')
+    if user_token:
+        try:
+            user_email = auth.get_account_info(user_token)['users'][0]['email']
+            user_doc = db.collection('users').document(user_email).get().to_dict()
+            hedera_account_id = user_doc.get('hedera_account_id')
+
+            if not hedera_account_id:
+                return "Hedera account not found. Please create an account first."
+
+            recipient_account_id = request.form.get('recipient')
+            amount = float(request.form.get('amount'))
+
+            # Perform the transaction on Hedera network
+            # Add your logic here to validate the transaction, check user's balance, etc.
+            resp = TransferTransaction().addHbarTransfer(hedera_account_id, Hbar.fromFloat(amount).negated()) \
+                .addHbarTransfer(recipient_account_id, Hbar.fromFloat(amount)).execute(hedera_client)
+
+            # Save the transaction details in the user's database document
+            db.collection('users').document(user_email).update({
+                'transaction_history': {
+                    'sender': hedera_account_id,
+                    'recipient': recipient_account_id,
+                    'amount': amount
+                }
+            })
+
+            return redirect(url_for('wallet'))
+        except Exception as e:
+            print("Error processing transaction:", e)
+            return "Error processing transaction."
+
+    return redirect(url_for('login'))
+
+
+@app.route('/pay_admin', methods=['POST'])
+def pay_admin():
+    user_token = session.get('user_token')
+    if user_token:
+        try:
+            user_email = auth.get_account_info(user_token)['users'][0]['email']
+            user_doc = db.collection('users').document(user_email).get().to_dict()
+            hedera_account_id = user_doc.get('hedera_account_id')
+
+            if not hedera_account_id:
+                return "Hedera account not found. Please create an account first."
+
+            admin_account_id = request.form.get('admin_account_id')
+            amount_to_pay = float(request.form.get('amount_to_pay'))
+
+            # Perform the payment transaction to the admin
+            # Add your logic here to validate the transaction, check user's balance, etc.
+            resp = TransferTransaction().addHbarTransfer(hedera_account_id, Hbar.fromFloat(amount_to_pay).negated()) \
+                .addHbarTransfer(admin_account_id, Hbar.fromFloat(amount_to_pay)).execute(hedera_client)
+
+            # Save the transaction details in the user's database document
+            db.collection('users').document(user_email).update({
+                'transaction_history': {
+                    'sender': hedera_account_id,
+                    'recipient': admin_account_id,
+                    'amount': amount_to_pay
+                }
+            })
+
+            return redirect(url_for('wallet'))
+        except Exception as e:
+            print("Error processing payment:", e)
+            return "Error processing payment."
+
+    return redirect(url_for('login'))
 
 ###############################################################################################
 
@@ -154,6 +287,8 @@ def remove_notices():
         Polls.delete_one({"title": title})
     
     return redirect('/handle_polls')
+
+
 
 
 @app.route('/handle_polls', methods=['GET'])
@@ -210,7 +345,7 @@ def ingredients():
     
     return render_template('ingredients.html')
 
+
 if __name__ == '__main__':
-    host = os.environ.get('HOST', '0.0.0.0')
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host=host, port=port)
+    app.run(debug=True)
+
