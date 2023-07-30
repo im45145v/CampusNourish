@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Post Board</title>
+  <link rel="stylesheet" href="ex.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">DASH BOARD</h1>
+    <div id="postForm">
+      <textarea id="postText" placeholder="Share your thoughts..."></textarea>
+      <div class="file-upload">
+        <label for="imageUpload">Upload an Image</label>
+        <input type="file" id="imageUpload" accept="image/*">
+      </div>
+      <div class="file-upload">
+        <label for="videoUpload">Upload a Video</label>
+        <input type="file" id="videoUpload" accept="video/*">
+      </div>
+      <button type="button" onclick="addPost()">Post</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2 class="section-title">Recent Posts</h2>
+    <div id="recentPosts">
+      <!-- New posts will be displayed here -->
+    </div>
+  </div>
+
+  <script src="ex.js"></script>
+</body>
+</html>
