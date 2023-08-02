@@ -9,8 +9,15 @@ import os
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY','1324456789')
 client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
-admins = [os.getenv('admins')]
-admin_mails = [os.getenv('admin_mails')]
+admins = []
+admin_mails = []
+
+
+Admin = iter(db["admin"].find())
+for records in Admin:
+    admins.append(records['acnt_local_id'])
+    admin_mails.append(records['mail_id'])
+    
 config={
   "apiKey":os.getenv("apiKey") ,
   "authDomain":os.getenv("authDomain") ,
