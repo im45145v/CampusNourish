@@ -9,6 +9,7 @@ import os
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY','1324456789')
 client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
+db = client["Food"]
 admins = []
 admin_mails = []
 
