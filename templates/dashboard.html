@@ -1,60 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
             margin: 0;
             padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
 
         .container {
             max-width: 800px;
-            margin: 20px auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
             padding: 20px;
-        }
-
-        h1 {
-            margin-top: 0;
-            color: #333;
-            text-align: center;
-        }
-
-        .nav-links {
-            display: flex;
-            justify-content: center;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
             margin-top: 20px;
         }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #0066cc;
-            margin: 0 10px;
-            padding: 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
+        h2 {
+            color: #333;
         }
 
-        .nav-links a:hover {
-            background-color: #e6f3ff;
+        p {
+            color: #666;
+        }
+
+        .link a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        .menu-bar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .menu-bar .link {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .menu-bar .link:hover {
+            background-color: #555;
+            transition: background-color 0.3s;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>Dashboard</h1>
-        <div class="nav-links">
-            <a href="{{ url_for('notices') }}">Notice Board</a>
-            <a href="{{ url_for('vote') }}">Vote</a>
-            <a href="{{ url_for('Courses') }}">Courses</a>
-            <a href="{{ url_for('Resources') }}">Resources</a>
-            <a href="{{ url_for('Roadmaps') }}">Roadmaps</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-        </div>
+    </header>
+    <div class="menu-bar">
+        <a class="link" href="{{ url_for('notices') }}">Notice Board</a>
+        <a class="link" href="{{ url_for('vote') }}">Vote</a>
+        <a class="link" href="{{ url_for('Resources') }}">Resources</a>
+        <a class="link" href="{{ url_for('Courses') }}">Courses</a>
+        <a class="link" href="{{ url_for('Roadmaps') }}">Roadmaps</a>
+        <a class="link" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    <div class="container">
+        <h2>Resources</h2>
+        <p>"Resources" typically refer to discounts, promotions, or special deals specifically designed for students. These offers are a way for businesses, educational institutions, and various service providers to support students and make their products or services more accessible. If you're interested in student offers, you can find more information.</p>
+    </div>
+    <div class="container">
+        <h2>Courses</h2>
+        <p>Free course websites are invaluable resources for learners of all ages and backgrounds. These platforms offer a wide range of educational content at no cost, making quality learning accessible to anyone with an internet connection.</p>
+    </div>
+    <div class="container">
+        <h2>Roadmaps</h2>
+        <p>Roadmaps are strategic plans or visual representations that outline the key steps, milestones, and goals necessary to achieve a specific objective, project, or journey. Roadmaps are used in various contexts, including business, project management, product development, and personal development.</p>
+    </div>
+    <div class="container">
+        <h2>GitHub Contributions</h2>
+        <p>Contributions are actions or efforts made by individuals or groups to enhance, improve, or make a positive impact on various aspects of society, organizations, or projects. Contributions can take many forms and play a crucial role in personal development, community building, and the progress of society. If you want to contribute to a GitHub project, check out the repository <a href="https://github.com/Ashuradhipathi/CampusNourish">Let's Go</a>.</p>
+    </div>
+    <div class="container">
+        <h2>Polls about Food in the Mess</h2>
+        <p>Our "Polls about Food in the Mess" section allows you to have your say in what's on the menu. We believe that your opinion matters, and we want to cater to your preferences. Cast your vote in the polls, and help us decide what delicious dishes should be served in the mess. Your feedback shapes our menu, so don't miss the chance to influence what's for dinner!</p>
+    </div>
+    
+    <div class="container">
+        <h2>Notice Board</h2>
+        <p>Stay informed and up-to-date with our "Notice Board." This is your go-to place for all the latest announcements, updates, and important information. Whether it's about upcoming events, changes in the mess schedule, or important notices from the campus administration, you'll find it all here. Check the "Notice Board" regularly to ensure you don't miss anything important during your academic journey.</p>
+    </div>
+    
 </body>
 </html>

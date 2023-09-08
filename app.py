@@ -4,12 +4,12 @@ from pymongo import MongoClient
 import jinja2
 #from dotenv import load_dotenv
 #load_dotenv('.env')
-import var
+import os
 
 
 app = Flask(__name__)
-app.secret_key = var.SECRET_KEY
-client = MongoClient(var.mongostr, serverSelectionTimeoutMS=60000)
+app.secret_key = os.environ.get('SECRET_KEY','1324456789')
+client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
 db = client["Food"]
 admins = []
 admin_mails = []
@@ -17,13 +17,21 @@ admin_mails = []
 
 db = client["Food"]
 DB = client['HacksForU']
+
 Admin = iter(db["admin"].find())
 for records in Admin:
     admins.append(records['acnt_local_id'])
     admin_mails.append(records['mail_id'])
-    
-config=var.config
 
+config={
+  "apiKey":os.getenv("apiKey") ,
+  "authDomain":os.getenv("authDomain") ,
+  "databaseURL":os.getenv("databaseURL") ,
+  "projectId": os.getenv("projectId"),
+  "storageBucket": os.getenv("storageBucket"),
+  "messagingSenderId": os.getenv("messagingSenderId"),
+  "appId": os.getenv("appId"),
+  "measurementId": os.getenv("measurementId")}
 def unique_count(lst):
     return len(set(lst))
 
