@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmaps</title>
+    <style>
+        /* Add your CSS styles here */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .roadmap-list {
+            list-style-type: none;
+            margin-top: 20px;
+        }
+
+        .roadmap-item {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .roadmap-item h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .roadmap-item p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .roadmap-item img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .roadmap-item a {
+            display: block;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 10px auto;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .roadmap-item a:hover {
+            background-color: #0056b3;
+        }
+
+        .Roadmaps {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .add-roadmap-form h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .add-roadmap-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .add-roadmap-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-roadmap-form button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-roadmap-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Roadmaps</h1>
+        <ul class="roadmap-list">
+            <!-- Loop through roadmaps here -->
+            <li class="roadmap-item">
+                <h3>Roadmap Title</h3>
+                <p>Roadmap Description</p>
+                <img src="roadmap_image.jpg" alt="Roadmap Title">
+                <a href="roadmap_link">Go</a>
+            </li>
+            <!-- Repeat this structure for each roadmap -->
+        </ul>
+    </div>
+
+    <div class="Roadmaps">
+        <h1>Add Roadmaps</h1>
+        <form action="/add_roadmap" method="post" class="add-roadmap-form">
+            <h2>Create Roadmap</h2>
+            <label for="roadmap_name">Title:</label>
+            <input type="text" id="roadmap_name" name="roadmap_name" required>
+            <label for="roadmap_desc">Description:</label>
+            <input type="text" id="roadmap_desc" name="roadmap_desc">
+            <label for="image_url">Image URL:</label>
+            <input type="text" id="image_url" name="image_url">
+            <label for="roadmap_url">Roadmap URL:</label>
+            <input type="text" id="roadmap_url" name="roadmap_url" required>
+            <button type="submit">Add Roadmap</button>
+        </form>
+    </div>
+</body>
+</html>

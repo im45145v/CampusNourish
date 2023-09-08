@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources</title>
+    <style>
+        /* Add your CSS styles here */
+        .Resources {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .resource-list {
+            list-style-type: none;
+            margin-top: 20px;
+        }
+
+        .resource-item {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-item h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .resource-item p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .resource-item img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .resource-item a {
+            display: block;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 10px auto;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .resource-item a:hover {
+            background-color: #0056b3;
+        }
+
+        .create-resource-form h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .create-resource-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .create-resource-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .create-resource-form button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .create-resource-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="Resources">
+        <h1>Resources</h1>
+        <div class="container">
+            <h2>Resource List</h2>
+            <ul class="resource-list">
+                <!-- Loop through resources here -->
+                <li class="resource-item">
+                    <h3>Resource Title</h3>
+                    <p>Resource Description</p>
+                    <img src="resource_image.jpg" alt="Resource Title">
+                    <a href="resource_link">Go</a>
+                </li>
+                <!-- Repeat this structure for each resource -->
+            </ul>
+        </div>
+
+        <form action="/create_resource" method="post" class="create-resource-form">
+            <h2>Create Resource</h2>
+            <label for="resource_name">Category:</label>
+            <input type="text" id="resource_name" name="resource_name" required>
+            <label for="resource_desc">Description:</label>
+            <input type="text" id="resource_desc" name="resource_desc">
+            <label for="

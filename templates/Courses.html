@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Courses</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Courses</h1>
+        <ul>
+            {% for course in courses %}
+                <li>
+                    <h3>{{ course['Title'] }}</h3>
+                    <p>{{ course['Description'] }}</p>
+                    <img src="{{ course['Image'] }}" alt="{{ course['Title'] }}">
+                    <a href="{{ course['Link'] }}">Go</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <form action="/add_course" method="post">
+        <h2>Create Resources</h2>
+        <label for="course_name">Category:</label>
+        <input type="text" id="course_name" name="course_name" required>
+        <label for="course_desc">Description:</label>
+        <input type="text" id="course_desc" name="course_desc">
+        <label for="image_url">Image URL:</label>
+        <input type="text" id="image_url" name="image_url">
+        <label for="course_url">Course URL:</label>
+        <input type="text" id="course_url" name="course_url" required>
+        <button type="submit">Add Course</button>
+    </form>
+</body>
+</html>

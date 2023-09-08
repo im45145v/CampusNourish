@@ -16,6 +16,7 @@ admin_mails = []
 
 
 db = client["Food"]
+DB = client['HacksForU']
 Admin = iter(db["admin"].find())
 for records in Admin:
     admins.append(records['acnt_local_id'])
@@ -211,17 +212,17 @@ def ingredients():
     return render_template('ingredients.html')
 
 def show_roadmaps():
-    Roadmaps = db["Roadmaps"]
+    Roadmaps = DB["Roadmaps"]
     roadmaps = iter(Roadmaps.find())
     return roadmaps
 
 def show_courses():
-    Courses = db["Courses"]
+    Courses = DB["Courses"]
     courses = iter(Courses.find())
     return courses
 
 def show_FreeStuff():
-    FreeStuff = db["FreeStuff"]
+    FreeStuff = DB["FreeStuff"]
     items = iter(FreeStuff.find())
     return items
 
@@ -254,6 +255,49 @@ def create_courses(Title,Description,Image,Link):
         "Link": Link        
     }
     Courses.insert_one(new_course)
+
+
+@app.route('/Courses', methods=['GET', 'POST'])
+def Courses():
+    courses = show_courses()
+    return render_template('Courses.html', courses=courses)
+
+@app.route('/add_course', methods=['POST'])
+def add_course():
+    Title = request.form.get('course_name')
+    Description = request.form.get('course_desc')
+    Image = request.form.get('image_url')
+    Link = request.form.get('course_url')
+    create_courses(Title,Description,Image,Link)
+    return redirect('/Courses')
+
+@app.route('/Resources', methods=['GET', 'POST'])
+def Resources():
+    resources = show_FreeStuff()
+    return render_template('Resources.html', resources=resources)
+
+@app.route('/add_resource', methods=['POST'])
+def add_resource():
+    Title = request.form.get('resource_name')
+    Description = request.form.get('resource_desc')
+    Image = request.form.get('image_url')
+    Link = request.form.get('resource_url')
+    create_FreeStuff(Title,Description,Image,Link)
+    return redirect('/Resources')
+
+@app.route('/Roadmaps', methods=['GET', 'POST'])
+def Roadmaps():
+    roadmaps = show_roadmaps()
+    return render_template('Roadmaps.html', roadmaps=roadmaps)
+
+@app.route('/add_roadmap', methods=['POST'])
+def add_roadmap():
+    Title = request.form.get('roadmap_name')
+    Description = request.form.get('roadmap_desc')
+    Image = request.form.get('image_url')
+    Link = request.form.get('roadmap_url')
+    create_courses(Title,Description,Image,Link)
+    return redirect('/Roadmaps')
 
 
 if __name__ == '__main__':
