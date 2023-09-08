@@ -296,7 +296,7 @@ def add_roadmap():
     Description = request.form.get('roadmap_desc')
     Image = request.form.get('image_url')
     Link = request.form.get('roadmap_url')
-    create_courses(Title,Description,Image,Link)
+    create_roadmap(Title,Description,Image,Link)
     return redirect('/Roadmaps')
 
 

@@ -52,6 +52,11 @@
     <div class="container">
         <h1>Admin Page</h1>
         <div class="admin-links">
+            <div class="menu-bar">
+            <a href="{{ url_for('notices') }}">Notice Board</a>
+            <a href="{{ url_for('vote') }}">Vote</a>
+            <a href="{{ url_for('Resources') }}">Resources</a>
+            <a href="{{ url_for('Roadmaps') }}">Roadmaps</a>
             <a href="{{ url_for('ingredients') }}">Cook Book</a>
             <a href="{{ url_for('handle_notices') }}">Change Notice Board</a>
             <a href="{{ url_for('handle_polls') }}">Change Polls</a>

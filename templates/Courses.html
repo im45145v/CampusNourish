@@ -2,33 +2,52 @@
 <html>
 <head>
     <title>Courses</title>
+    <link rel="stylesheet" type="text/css" href="static/Courses.css"> <!-- Link to your external CSS file -->
 </head>
 <body>
+    <div class="menu-bar">
+        <a href="{{ url_for('notices') }}">Notice Board</a>
+        <a href="{{ url_for('vote') }}">Vote</a>
+        <a href="{{ url_for('Resources') }}">Resources</a>
+        <a href="{{ url_for('Roadmaps') }}">Roadmaps</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    
     <div class="container">
         <h1>Courses</h1>
-        <ul>
+        <ul class="course-list">
             {% for course in courses %}
-                <li>
-                    <h3>{{ course['Title'] }}</h3>
-                    <p>{{ course['Description'] }}</p>
-                    <img src="{{ course['Image'] }}" alt="{{ course['Title'] }}">
-                    <a href="{{ course['Link'] }}">Go</a>
+                <li class="course-item">
+                    <div class="course-header">
+                        <img src="{{ course['Image'] }}" alt="{{ course['Title'] }}" class="course-image">
+                        <h3>{{ course['Title'] }}</h3>
+                    </div>
+                    <p class="course-description">{{ course['Description'] }}</p>
+                    <a href="{{ course['Link'] }}" class="course-button">Go</a>
                 </li>
             {% endfor %}
         </ul>
     </div>
 
-    <form action="/add_course" method="post">
-        <h2>Create Resources</h2>
-        <label for="course_name">Category:</label>
-        <input type="text" id="course_name" name="course_name" required>
-        <label for="course_desc">Description:</label>
-        <input type="text" id="course_desc" name="course_desc">
-        <label for="image_url">Image URL:</label>
-        <input type="text" id="image_url" name="image_url">
-        <label for="course_url">Course URL:</label>
-        <input type="text" id="course_url" name="course_url" required>
-        <button type="submit">Add Course</button>
+    <form action="/add_course" method="post" class="add-course-form">
+        <h2>Create Course</h2>
+        <div class="input-container">
+            <label for="course_name">Course:</label>
+            <input type="text" id="course_name" name="course_name" required>
+        </div>
+        <div class="input-container">
+            <label for="course_desc">Description:</label>
+            <input type="text" id="course_desc" name="course_desc">
+        </div>
+        <div class="input-container">
+            <label for="image_url">Image URL:</label>
+            <input type="text" id="image_url" name="image_url">
+        </div>
+        <div class="input-container">
+            <label for="course_url">Course URL:</label>
+            <input type="text" id="course_url" name="course_url" required>
+        </div>
+        <button type="submit" class="add-button">Add Course</button>
     </form>
 </body>
 </html>

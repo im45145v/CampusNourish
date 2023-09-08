@@ -1,119 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resources</title>
-    <style>
-        /* Add your CSS styles here */
-        .Resources {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .resource-list {
-            list-style-type: none;
-            margin-top: 20px;
-        }
-
-        .resource-item {
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin: 10px 0;
-            background-color: #f9f9f9;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .resource-item h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .resource-item p {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-        .resource-item img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .resource-item a {
-            display: block;
-            text-decoration: none;
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            margin: 10px auto;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-
-        .resource-item a:hover {
-            background-color: #0056b3;
-        }
-
-        .create-resource-form h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .create-resource-form label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .create-resource-form input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .create-resource-form button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .create-resource-form button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="static/Resources.css"> <!-- Link to your external CSS file -->
 </head>
 <body>
-    <div class="Resources">
+    <div class="menu-bar">
+        <a href="{{ url_for('notices') }}">Notice Board</a>
+        <a href="{{ url_for('vote') }}">Vote</a>
+        <a href="{{ url_for('Courses') }}">Courses</a>
+        <a href="{{ url_for('Roadmaps') }}">Roadmaps</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    
+    <div class="container">
         <h1>Resources</h1>
-        <div class="container">
-            <h2>Resource List</h2>
-            <ul class="resource-list">
-                <!-- Loop through resources here -->
+        <ul class="resource-list">
+            {% for resource in resources %}
                 <li class="resource-item">
-                    <h3>Resource Title</h3>
-                    <p>Resource Description</p>
-                    <img src="resource_image.jpg" alt="Resource Title">
-                    <a href="resource_link">Go</a>
+                    <div class="resource-header">
+                        <img src="{{ resource['Image'] }}" alt="{{ resource['Title'] }}" class="resource-image">
+                        <h3>{{ resource['Title'] }}</h3>
+                    </div>
+                    <p class="resource-description">{{ resource['Description'] }}</p>
+                    <a href="{{ resource['Link'] }}" class="resource-button">Go</a>
                 </li>
-                <!-- Repeat this structure for each resource -->
-            </ul>
-        </div>
+            {% endfor %}
+        </ul>
+    </div>
 
-        <form action="/create_resource" method="post" class="create-resource-form">
-            <h2>Create Resource</h2>
-            <label for="resource_name">Category:</label>
+    <form action="/add_resource" method="post" class="add-resource-form">
+        <h2>Create Resource</h2>
+        <div class="input-container">
+            <label for="resource_name">Resource:</label>
             <input type="text" id="resource_name" name="resource_name" required>
+        </div>
+        <div class="input-container">
             <label for="resource_desc">Description:</label>
             <input type="text" id="resource_desc" name="resource_desc">
-            <label for="
+        </div>
+        <div class="input-container">
+            <label for="image_url">Image URL:</label>
+            <input type="text" id="image_url" name="image_url">
+        </div>
+        <div class="input-container">
+            <label for="resource_url">Resource URL:</label>
+            <input type="text" id="resource_url" name="resource_url" required>
+        </div>
+        <button type="submit" class="add-button">Add Resource</button>
+    </form>
+</body>
+</html>
