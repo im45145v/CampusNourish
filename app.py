@@ -3,21 +3,26 @@ import pyrebase
 from pymongo import MongoClient
 import jinja2
 #from dotenv import load_dotenv
-import os
 #load_dotenv('.env')
+import os
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY','1324456789')
 client = MongoClient(os.getenv('mongostr'), serverSelectionTimeoutMS=60000)
+db = client["Food"]
 admins = []
 admin_mails = []
 
+
+db = client["Food"]
+DB = client['HacksForU']
 
 Admin = iter(db["admin"].find())
 for records in Admin:
     admins.append(records['acnt_local_id'])
     admin_mails.append(records['mail_id'])
-    
+
 config={
   "apiKey":os.getenv("apiKey") ,
   "authDomain":os.getenv("authDomain") ,
@@ -27,14 +32,11 @@ config={
   "messagingSenderId": os.getenv("messagingSenderId"),
   "appId": os.getenv("appId"),
   "measurementId": os.getenv("measurementId")}
-
 def unique_count(lst):
     return len(set(lst))
 
 app.jinja_env.filters['unique_count'] = unique_count
 
-# Connect to MongoDB
-db = client["Food"]
 
 # Initialize Firebase Admin SDK
 firebase=pyrebase.initialize_app(config)
@@ -217,7 +219,94 @@ def ingredients():
     
     return render_template('ingredients.html')
 
+def show_roadmaps():
+    Roadmaps = DB["Roadmaps"]
+    roadmaps = iter(Roadmaps.find())
+    return roadmaps
+
+def show_courses():
+    Courses = DB["Courses"]
+    courses = iter(Courses.find())
+    return courses
+
+def show_FreeStuff():
+    FreeStuff = DB["FreeStuff"]
+    items = iter(FreeStuff.find())
+    return items
+
+def create_roadmap(Title,Description,Image,Link):
+    Roadmaps = DB["Roadmaps"]
+    new_roadmap = {
+        "Title": Title,
+        "Description": Description,
+        "Image" : Image,
+        "Link": Link        
+        }
+    Roadmaps.insert_one(new_roadmap)
+
+def create_FreeStuff(Title,Description,Image,Link):
+    FreeStuff = DB["FreeStuff"]
+    new_stuff = {
+        "Title": Title,
+        "Description": Description,
+        "image" : Image,
+        "Link": Link        
+    }
+    FreeStuff.insert_one(new_stuff)
+
+def create_courses(Title,Description,Image,Link):
+    Courses = DB["Courses"]
+    new_course = {
+        "Title": Title,
+        "Description": Description,
+        "image" : Image,
+        "Link": Link        
+    }
+    Courses.insert_one(new_course)
+
+
+@app.route('/Courses', methods=['GET', 'POST'])
+def Courses():
+    courses = show_courses()
+    return render_template('Courses.html', courses=courses)
+
+@app.route('/add_course', methods=['POST'])
+def add_course():
+    Title = request.form.get('course_name')
+    Description = request.form.get('course_desc')
+    Image = request.form.get('image_url')
+    Link = request.form.get('course_url')
+    create_courses(Title,Description,Image,Link)
+    return redirect('/Courses')
+
+@app.route('/Resources', methods=['GET', 'POST'])
+def Resources():
+    resources = show_FreeStuff()
+    return render_template('Resources.html', resources=resources)
+
+@app.route('/add_resource', methods=['POST'])
+def add_resource():
+    Title = request.form.get('resource_name')
+    Description = request.form.get('resource_desc')
+    Image = request.form.get('image_url')
+    Link = request.form.get('resource_url')
+    create_FreeStuff(Title,Description,Image,Link)
+    return redirect('/Resources')
+
+@app.route('/Roadmaps', methods=['GET', 'POST'])
+def Roadmaps():
+    roadmaps = show_roadmaps()
+    return render_template('Roadmaps.html', roadmaps=roadmaps)
+
+@app.route('/add_roadmap', methods=['POST'])
+def add_roadmap():
+    Title = request.form.get('roadmap_name')
+    Description = request.form.get('roadmap_desc')
+    Image = request.form.get('image_url')
+    Link = request.form.get('roadmap_url')
+    create_roadmap(Title,Description,Image,Link)
+    return redirect('/Roadmaps')
+
+
 if __name__ == '__main__':
-    host = os.environ.get('HOST', '0.0.0.0')
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host=host, port=port)
+    app.run()

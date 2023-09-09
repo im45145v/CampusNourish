@@ -1,0 +1,153 @@
+/* Reset some default browser styles */
+body, ul, li, h1, h2, h3, p, img, a, label, input, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Apply styles to the container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Style the resource list */
+.resource-list {
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+/* Style each resource item as a full-width flash card */
+.resource-item {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    width: 100%;
+}
+
+.resource-item:hover {
+    transform: scale(1.05);
+}
+
+/* Style the resource header */
+.resource-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Style the resource image */
+.resource-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Style the resource title */
+.resource-item h3 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+/* Style the resource description */
+.resource-description {
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Style the "Go" button */
+.resource-button {
+    display: block;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px; /* Adjust the button size here */
+    margin: 10px auto;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    text-align: center; /* Center the button text */
+}
+
+.resource-button:hover {
+    background-color: #0056b3;
+}
+
+/* Style the create resource form */
+.add-resource-form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-resource-form h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Style input containers */
+.input-container {
+    margin-bottom: 10px;
+}
+
+/* Style input fields */
+.input-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style the "Add Resource" button */
+.add-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the menu bar */
+.menu-bar {
+    background-color: #333; /* Background color */
+    overflow: hidden;
+}
+
+/* Style for the menu bar links */
+.menu-bar a {
+    float: left; /* Float the links to the left */
+    display: block; /* Make them block elements for proper spacing */
+    color: white; /* Text color */
+    text-align: center; /* Center align the text */
+    padding: 14px 16px; /* Padding for spacing */
+    text-decoration: none; /* Remove underlines */
+}
+
+/* Change color on hover */
+.menu-bar a:hover {
+    background-color: #555;
+}

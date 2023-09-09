@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Roadmaps</title>
+    <link rel="stylesheet" type="text/css" href="static/Roadmaps.css"> <!-- Link to your external CSS file -->
+</head>
+<body>
+    <div class="menu-bar">
+        <a href="{{ url_for('notices') }}">Notice Board</a>
+        <a href="{{ url_for('vote') }}">Vote</a>
+        <a href="{{ url_for('Resources') }}">Resources</a>
+        <a href="{{ url_for('Courses') }}">Roadmaps</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    
+    <div class="container">
+        <h1>Roadmaps</h1>
+        <ul class="roadmap-list">
+            {% for roadmap in roadmaps %}
+                <li class="roadmap-item">
+                    <div class="roadmap-header">
+                        <img src="{{ roadmap['Image'] }}" alt="{{ roadmap['Title'] }}" class="roadmap-image">
+                        <h3>{{ roadmap['Title'] }}</h3>
+                    </div>
+                    <p class="roadmap-description">{{ roadmap['Description'] }}</p>
+                    <a href="{{ roadmap['Link'] }}" class="roadmap-button">Go</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <form action="/add_roadmap" method="post" class="add-roadmap-form">
+        <h2>Create Roadmap</h2>
+        <div class="input-container">
+            <label for="roadmap_name">Roadmap:</label>
+            <input type="text" id="roadmap_name" name="roadmap_name" required>
+        </div>
+        <div class="input-container">
+            <label for="roadmap_desc">Description:</label>
+            <input type="text" id="roadmap_desc" name="roadmap_desc">
+        </div>
+        <div class="input-container">
+            <label for="image_url">Image URL:</label>
+            <input type="text" id="image_url" name="image_url">
+        </div>
+        <div class="input-container">
+            <label for="roadmap_url">Roadmap URL:</label>
+            <input type="text" id="roadmap_url" name="roadmap_url" required>
+        </div>
+        <button type="submit" class="add-button">Add Roadmap</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resources</title>
+    <link rel="stylesheet" type="text/css" href="static/Resources.css"> <!-- Link to your external CSS file -->
+</head>
+<body>
+    <div class="menu-bar">
+        <a href="{{ url_for('notices') }}">Notice Board</a>
+        <a href="{{ url_for('vote') }}">Vote</a>
+        <a href="{{ url_for('Courses') }}">Courses</a>
+        <a href="{{ url_for('Roadmaps') }}">Roadmaps</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    
+    <div class="container">
+        <h1>Resources</h1>
+        <ul class="resource-list">
+            {% for resource in resources %}
+                <li class="resource-item">
+                    <div class="resource-header">
+                        <img src="{{ resource['Image'] }}" alt="{{ resource['Title'] }}" class="resource-image">
+                        <h3>{{ resource['Title'] }}</h3>
+                    </div>
+                    <p class="resource-description">{{ resource['Description'] }}</p>
+                    <a href="{{ resource['Link'] }}" class="resource-button">Go</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <form action="/add_resource" method="post" class="add-resource-form">
+        <h2>Create Resource</h2>
+        <div class="input-container">
+            <label for="resource_name">Resource:</label>
+            <input type="text" id="resource_name" name="resource_name" required>
+        </div>
+        <div class="input-container">
+            <label for="resource_desc">Description:</label>
+            <input type="text" id="resource_desc" name="resource_desc">
+        </div>
+        <div class="input-container">
+            <label for="image_url">Image URL:</label>
+            <input type="text" id="image_url" name="image_url">
+        </div>
+        <div class="input-container">
+            <label for="resource_url">Resource URL:</label>
+            <input type="text" id="resource_url" name="resource_url" required>
+        </div>
+        <button type="submit" class="add-button">Add Resource</button>
+    </form>
+</body>
+</html>
